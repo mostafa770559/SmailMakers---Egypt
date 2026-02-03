@@ -1198,3 +1198,27 @@ body.dark .lang-btn:hover {
   background: #2a2a2a;
 }
 
+
+.whatsapp-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px; /* ثابت على الشمال */
+  background-color: #25D366;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+}
