@@ -96,6 +96,11 @@ function sendWhatsApp() {
         return;
     }
 
+    if (!notes) {
+        alert('من فضلك حدد  ضع الخدمه المطلوبه');
+        return;
+    }
+
     let caseType = '';
     if (lip) caseType += 'شفة أرنبية ';
     if (palate) caseType += 'شق سقف الحلق';
@@ -104,7 +109,7 @@ function sendWhatsApp() {
     const message = `
 اسم المريض: ${name}
 بلد الإقامة: ${cont}
-العمر: ${ageYear} سنة و ${ageMonth} و ${ageDay} يوم
+العمر: ${ageYear} - ${ageMonth} - ${ageDay} 
 نوع الحالة: ${caseType}
 الجنس: ${gender}
 الخدمة المطلوبة: ${notes || "لا يوجد"}`;
