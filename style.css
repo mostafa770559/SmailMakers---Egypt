@@ -1222,3 +1222,9 @@ body.dark .lang-btn:hover {
   transform: scale(1.1);
   box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }
+
+/* Dark Mode للزر */
+body.dark .whatsapp-btn {
+  background-color: #128C7E; /* أخضر غامق مناسب للدارك */
+  color: #fff;
+}
