@@ -1,4 +1,84 @@
-// إظهار زر الرجوع لأعلى عند التمرير
+/* ===============================
+   بيانات المخطط الزمني
+================================ */
+const timelineData = [
+    { label: "قبل الولادة", type: "special", desc: "التقييم الأولي والتخطيط للعلاج", year: "السنة ٠" },
+    { label: "الولادة", type: "special", desc: "الفحص بعد الولادة والتقييم الشامل", year: "السنة ٠" },
+
+    { label: "٣", type: "month", desc: "الفحص الشامل وبدء المتابعة الدورية", year: "السنة ٠" },
+    { label: "٦", type: "month", desc: "متابعة النمو وفحص السمع الأولي", year: "السنة ٠" },
+    { label: "٩", type: "month", desc: "بدء جلسات التخاطب المبكرة", year: "السنة ٠" },
+    { label: "١٢", type: "month", desc: "فحص السمع الشامل والتقييم النمائي", year: "السنة ١" },
+    { label: "١٨", type: "month", desc: "نهاية المرحلة الشهرية وبدء المتابعة السنوية", year: "السنة ١.٥" },
+
+    { label: "٢ – ٥", type: "year", desc: "متابعة السمع – جلسات التخاطب – عمليات الأذن عند الحاجة", year: "مرحلة سنوية" },
+    { label: "٦ – ١٠", type: "year", desc: "تقويم الأسنان والمتابعة الجراحية الثانوية", year: "مرحلة سنوية" },
+    { label: "١١ – ١٧", type: "year", desc: "تحسين النطق والشكل الوظيفي والمتابعة النفسية", year: "مرحلة سنوية" },
+    { label: "+١٨", type: "year", desc: "العمليات التجميلية الثانوية النهائية عند الحاجة", year: "مرحلة سنوية" }
+];
+
+/* ===============================
+   إنشاء المخطط الزمني
+================================ */
+const timelineContainer = document.getElementById("monthlyTimeline");
+
+timelineData.forEach(item => {
+    let titleText = item.type === "month" ? `شهر ${item.label}` :
+                    item.type === "year" ? `${item.label} سنوات` :
+                    item.label;
+
+    const timelineItem = document.createElement("div");
+    timelineItem.className = "timeline-item";
+
+    timelineItem.innerHTML = `
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+            <div class="timeline-time">
+                <div class="timeline-month">${titleText}</div>
+                <div class="timeline-year">${item.year}</div>
+            </div>
+            <div class="timeline-desc">${item.desc}</div>
+        </div>
+    `;
+    timelineContainer.appendChild(timelineItem);
+});
+
+/* ===============================
+   دارك مود (آمن بدون Errors)
+================================ */
+const modeToggle = document.getElementById("modeToggle");
+const body = document.body;
+if (modeToggle) {
+    modeToggle.addEventListener("change", () => {
+        body.classList.toggle("dark-mode", modeToggle.checked);
+    });
+}
+
+/* ===============================
+   تأثير الظهور عند التمرير للمخطط الزمني
+================================ */
+const timelineObserver = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    },
+    { threshold: 0.1 }
+);
+
+document.querySelectorAll(".timeline-item").forEach(item => {
+    item.style.opacity = "0";
+    item.style.transform = "translateY(25px)";
+    item.style.transition = "0.6s ease";
+    timelineObserver.observe(item);
+});
+
+/* ===============================
+   زر الرجوع لأعلى
+================================ */
 window.onscroll = function () {
     const btn = document.getElementById("scrollTopBtn");
     if (document.documentElement.scrollTop > 300) {
@@ -8,56 +88,111 @@ window.onscroll = function () {
     }
 };
 
-// الرجوع لأعلى الصفحة بسلاسة
 document.getElementById("scrollTopBtn").onclick = function () {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
-// فتح وإغلاق الفورم
-function openForm() {
-    // منع السلوك الافتراضي
-    if (event) event.preventDefault();
-    
-    // إظهار النافذة
+/* ===============================
+   القصص (Stories)
+================================ */
+const stories = [
+  {
+    text: "كانت رحلة يوسف صعبة في البداية، لكن بفضل الله ثم الفريق الطبي أصبح يبتسم بثقة.",
+    name: "يوسف أحمد",
+    info: "4 سنوات – الغربيه",
+    before: "img/before.jpg",
+    after: "img/after.jpg"
+  },
+  {
+    text: "ابنتي استعادت ثقتها بنفسها بعد العملية، والفرق كان لا يُصدق.",
+    name: "مريم خالد",
+    info: "6 سنوات – الصعيد",
+    before: "img/before2.jpg",
+    after: "img/after2.jpg"
+  },
+  {
+    text: "الابتسامة رجعت لحياة طفلنا من جديد، شكرًا لكل من ساهم.",
+    name: "آدم محمد",
+    info: "5 سنوات – الإسكندرية",
+    before: "img/before3.jpg",
+    after: "img/after3.jpg"
+  }
+];
+
+let current = 0;
+
+const textEl = document.getElementById("storyText");
+const nameEl = document.getElementById("storyName");
+const infoEl = document.getElementById("storyInfo");
+const beforeImg = document.getElementById("beforeImg");
+const afterImg = document.getElementById("afterImg");
+const dots = document.getElementById("dots");
+
+function renderStory(i) {
+  const s = stories[i];
+  textEl.textContent = s.text;
+  nameEl.textContent = s.name;
+  infoEl.textContent = s.info;
+  beforeImg.src = s.before;
+  afterImg.src = s.after;
+
+  document.querySelectorAll(".dots span").forEach((d, index) => {
+    d.classList.toggle("active", index === i);
+  });
+}
+
+stories.forEach((_, i) => {
+  const dot = document.createElement("span");
+  dot.onclick = () => {
+    current = i;
+    renderStory(current);
+  };
+  dots.appendChild(dot);
+});
+
+document.getElementById("next").onclick = () => {
+  current = (current + 1) % stories.length;
+  renderStory(current);
+};
+
+document.getElementById("prev").onclick = () => {
+  current = (current - 1 + stories.length) % stories.length;
+  renderStory(current);
+};
+
+renderStory(current);
+
+/* ===============================
+   فتح وإغلاق الفورم
+================================ */
+function openForm(e) {
+    if (e) e.preventDefault();
     document.getElementById("waModal").style.display = "flex";
-    
-    // منع التمرير في الخلفية
     document.body.style.overflow = "hidden";
 }
 
 function closeForm() {
-    // إخفاء النافذة
     document.getElementById("waModal").style.display = "none";
-    
-    // إعادة التمرير
     document.body.style.overflow = "auto";
 }
 
-// إغلاق الفورم عند النقر خارج الصندوق
-window.addEventListener('click', function(event) {
+window.addEventListener("click", function (event) {
     const modal = document.getElementById("waModal");
-    if (event.target === modal) {
-        closeForm();
-    }
+    if (event.target === modal) closeForm();
 });
 
-// الأسئلة الشائعة - فتح وإغلاق
+/* ===============================
+   FAQ
+================================ */
 document.querySelectorAll(".faq-question").forEach(button => {
     button.addEventListener("click", () => {
         const answer = button.nextElementSibling;
-
-        // إغلاق باقي الأسئلة
         document.querySelectorAll(".faq-answer").forEach(a => {
             if (a !== answer) {
                 a.style.maxHeight = null;
                 a.previousElementSibling.classList.remove("active");
             }
         });
-
-        // فتح / غلق السؤال الحالي
         if (answer.style.maxHeight) {
             answer.style.maxHeight = null;
             button.classList.remove("active");
@@ -68,216 +203,146 @@ document.querySelectorAll(".faq-question").forEach(button => {
     });
 });
 
-// دالة إرسال واتساب
+/* ===============================
+   تاريخ الميلاد وحساب العمر
+================================ */
+const birthDate = document.getElementById("birthDate");
+const todayDate = new Date().toISOString().split("T")[0];
+if (birthDate) birthDate.max = todayDate;
+
+function calculateExactAge(birth) {
+    const b = new Date(birth);
+    const t = new Date();
+
+    let years = t.getFullYear() - b.getFullYear();
+    let months = t.getMonth() - b.getMonth();
+    let days = t.getDate() - b.getDate();
+
+    if (days < 0) {
+        months--;
+        days += new Date(t.getFullYear(), t.getMonth(), 0).getDate();
+    }
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+    return `${years} سنة – ${months} شهر – ${days} يوم`;
+}
+
+/* ===============================
+   إرسال واتساب
+================================ */
 function sendWhatsApp() {
     const name = document.getElementById("name").value.trim();
     const cont = document.getElementById("cont").value.trim();
-    const ageYear = document.getElementById("ageYear").value;
-    const ageMonth = document.getElementById("ageMonth").value;
-    const ageDay = document.getElementById("ageDay").value;
+    const birth = document.getElementById("birthDate").value;
     const lip = document.getElementById("lip").checked;
     const palate = document.getElementById("palate").checked;
     const gender = document.querySelector('input[name="gender"]:checked')?.value || '';
     const notes = document.getElementById("notes").value.trim();
 
-    // التحقق من الحقول الإلزامية
-    if (!name || !cont) {
-        alert('من فضلك املأ اسم المريض وبلد الإقامة');
-        return;
-    }
-    
-    if (!lip && !palate) {
-        alert('من فضلك حدد نوع الحالة');
-        return;
-    }
-    
-    if (!gender) {
-        alert('من فضلك حدد جنس المريض');
+    if (!name || !cont || !birth || !gender || !notes || (!lip && !palate)) {
+        alert("من فضلك أكمل كل البيانات");
         return;
     }
 
-    if (!notes) {
-        alert('من فضلك حدد  ضع الخدمه المطلوبه');
-        return;
-    }
+    const caseType = `${lip ? "شفة أرنبية " : ""}${palate ? "شق سقف الحلق" : ""}`.trim();
+    const age = calculateExactAge(birth);
 
-    let caseType = '';
-    if (lip) caseType += 'شفة أرنبية ';
-    if (palate) caseType += 'شق سقف الحلق';
-    caseType = caseType.trim();
-
-    const message = `
-اسم المريض: ${name}
+    const msg = `اسم المريض: ${name}
 بلد الإقامة: ${cont}
-العمر: ${ageYear} - ${ageMonth} - ${ageDay} 
+العمر: ${age}
 نوع الحالة: ${caseType}
 الجنس: ${gender}
-الخدمة المطلوبة: ${notes || "لا يوجد"}`;
+الخدمة المطلوبة: ${notes}`;
 
-    const url = `https://api.whatsapp.com/send?phone=201095715211&text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
-    
-    // إغلاق الفورم بعد الإرسال
+    window.open(`https://api.whatsapp.com/send?phone=201095715211&text=${encodeURIComponent(msg)}`, "_blank");
     closeForm();
 }
 
-// العداد المتزايد
-const counters = document.querySelectorAll('.counter');
-const dingSound = new Audio('ding-80828.mp3');
+/* ===============================
+   العداد + الصوت
+================================ */
+const counters = document.querySelectorAll(".counter");
+const dingSound = new Audio("ding-80828.mp3");
+let soundEnabled = false;
+let soundPlayed = false;
+
+function enableSoundOnScroll() {
+    dingSound.play().then(() => {
+        dingSound.pause();
+        dingSound.currentTime = 0;
+        soundEnabled = true;
+        console.log("🔊 الصوت اتفعل بالسكرول");
+    }).catch(() => {});
+    window.removeEventListener("scroll", enableSoundOnScroll);
+}
+window.addEventListener("scroll", enableSoundOnScroll, { once: true });
 
 const startCounters = () => {
     counters.forEach(counter => {
         const target = +counter.dataset.target;
         let count = 0;
-        
         const speed = Math.max(target / 200, 1);
-
         const update = () => {
             count += speed;
             if (count < target) {
                 counter.innerText = Math.ceil(count);
                 requestAnimationFrame(update);
             } else {
-                // ضبط الرقم النهائي
-                if (target > 100) {
-                    counter.innerText = target + "+";
-                } else {
-                    counter.innerText = target + "%";
-                }
-                // تشغيل الصوت بعد انتهاء العد
-                setTimeout(() => {
+                counter.innerText = target > 100 ? target + "+" : target + "%";
+                if (soundEnabled && !soundPlayed) {
                     dingSound.currentTime = 0;
-                    dingSound.play().catch(() => {
-                        console.log("تم منع تشغيل الصوت تلقائيًا من المتصفح");
-                    });
-                }, 50);
+                    dingSound.play();
+                    soundPlayed = true;
+                }
             }
         };
         update();
     });
 };
 
-// تشغيل العد عند ظهور القسم
-const observer = new IntersectionObserver(entries => {
+const counterObserver = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting) {
         startCounters();
-        observer.disconnect();
+        counterObserver.disconnect();
     }
 });
+document.querySelectorAll(".impact, .impact-section").forEach(sec => counterObserver.observe(sec));
 
-// ربط الأقسام بالـ observer
-document.querySelectorAll('.impact-section, .impact').forEach(section => {
-    observer.observe(section);
+/* ===============================
+   Dark Mode with localStorage
+================================ */
+document.addEventListener("DOMContentLoaded", () => {
+    const darkToggle = document.getElementById("darkToggle");
+    if (!darkToggle) return;
+
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark");
+        darkToggle.textContent = "☀️ الوضع النهاري";
+    }
+
+    darkToggle.onclick = () => {
+        document.body.classList.toggle("dark");
+        const enabled = document.body.classList.contains("dark");
+        localStorage.setItem("darkMode", enabled ? "enabled" : "disabled");
+        darkToggle.textContent = enabled ? "☀️ الوضع النهاري" : "🌙 الوضع الليلي";
+    };
 });
 
-// الوضع الليلي
-document.addEventListener('DOMContentLoaded', function() {
-    const darkToggle = document.getElementById('darkToggle');
-    
-    // التحقق من الوضع المحفوظ
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        document.body.classList.add('dark');
-        darkToggle.textContent = '☀️ الوضع النهاري';
-    }
-    
-    // تبديل الوضع الليلي
-    darkToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark');
-        
-        if (document.body.classList.contains('dark')) {
-            localStorage.setItem('darkMode', 'enabled');
-            darkToggle.textContent = '☀️ الوضع النهاري';
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-            darkToggle.textContent = '🌙 الوضع الليلي';
+/* ===============================
+   تحسينات عامة
+================================ */
+document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeForm();
+});
+
+document.querySelectorAll(".faq-question").forEach(btn => {
+    btn.setAttribute("tabindex", "0");
+    btn.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            btn.click();
         }
     });
-    
-    // تبديل اللغة (دالة أساسية)
-    const langToggle = document.getElementById('langToggle');
-    langToggle.addEventListener('click', function() {
-        alert('ميزة الترجمة قريبًا إن شاء الله');
-    });
-});
-
-// تهيئة التاريخ عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', function() {
-    // ملء السنوات
-    const yearSelect = document.getElementById("ageYear");
-    const currentYear = new Date().getFullYear();
-    
-    // ملء السنوات من 1950 إلى السنة الحالية
-    for(let y = 1950; y <= currentYear; y++) {
-        const option = document.createElement("option");
-        option.value = y;
-        option.text = y;
-        yearSelect.appendChild(option);
-    }
-    
-    // تعيين السنة الافتراضية
-    if (currentYear >= 2026) {
-        yearSelect.value = 2026;
-    } else {
-        yearSelect.value = currentYear;
-    }
-    
-    // ملء الأيام
-    const daySelect = document.getElementById("ageDay");
-    for(let d = 1; d <= 31; d++) {
-        const option = document.createElement("option");
-        option.value = d;
-        option.text = d;
-        daySelect.appendChild(option);
-    }
-    
-    // تعيين التاريخ الحالي
-    const today = new Date();
-    const monthSelect = document.getElementById("ageMonth");
-    const day = today.getDate();
-    
-    // تعيين اليوم الحالي
-    if (daySelect) {
-        daySelect.value = day;
-    }
-    
-    // تعيين الشهر الحالي (مع تعديل الفهرس)
-    if (monthSelect) {
-        // نبدأ من الفهرس 1 لأن الفهرس 0 هو "الشهر *"
-        monthSelect.selectedIndex = today.getMonth() + 1;
-    }
-});
-
-// تحسين تجربة المستخدم - إغلاق الفورم بضغط ESC
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeForm();
-    }
-});
-
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('.nav-actions a');
-
-window.addEventListener('scroll', () => {
-  let scrollPos = window.scrollY || window.pageYOffset;
-
-  sections.forEach((section) => {
-    if(scrollPos >= section.offsetTop - 100 && scrollPos < section.offsetTop + section.offsetHeight){
-      navLinks.forEach(link => link.classList.remove('active'));
-      const id = section.getAttribute('id');
-      const activeLink = document.querySelector(`.nav-actions a[href="#${id}"]`);
-      if(activeLink) activeLink.classList.add('active');
-    }
-  });
-});
-
-const faqButtons = document.querySelectorAll('.faq-question');
-
-faqButtons.forEach(btn => {
-  btn.setAttribute('tabindex', '0'); // يسمح بالـ Tab
-  btn.addEventListener('keydown', e => {
-    if(e.key === 'Enter' || e.key === ' '){
-      e.preventDefault();
-      btn.click(); // يفتح/يغلق FAQ
-    }
-  });
 });
