@@ -1245,6 +1245,7 @@ body.dark .whatsapp-btn {
 }
 
 .treatment-timeline {
+  overflow: hidden;
   background: #f4f9fd;
   padding: 80px 20px;
   font-family: 'Tajawal', sans-serif;
@@ -2076,3 +2077,79 @@ body.dark .dot.active {
             opacity: 0.8;
             font-size: 0.95rem;
         }
+
+a {
+  text-decoration: none;
+}
+.form-wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+/* iframe نفسه */
+.form-wrapper iframe {
+  width: 100%;
+  height: 900px;
+  border: none;
+  border-radius: 14px;
+}
+
+/* موبايل */
+@media (max-width: 768px) {
+  .form-wrapper {
+    margin: 20px 12px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .form-wrapper iframe {
+    height: 1100px;
+    border-radius: 10px;
+  }
+}
+body.dark .form-wrapper {
+  background: #1e1e1e;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.dark .hero {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.dark .success-stories {
+  background: #111827; /* دارك مختلف عن الهيرو */
+  color: #e5e7eb;
+}
+
+/* نصوص وألوان */
+.dark .hero h1,
+.dark .success-stories h2,
+.dark .story-text h4 {
+  color: #ffffff;
+}
+
+.dark .hero p,
+.dark .success-stories p,
+.dark .story-text p,
+.dark .story-text span {
+  color: #cbd5f5;
+}
+
+/* كروت داخل Success Stories */
+.dark .story-card,
+.dark .img-box {
+  background: #1f2937; /* مختلف عن الهيرو عشان الفصل واضح */
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+}
+
+/* صور */
+.dark .hero img,
+.dark .success-stories img {
+  filter: brightness(0.9) contrast(1.05);
+}
