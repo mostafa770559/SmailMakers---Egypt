@@ -2,12 +2,12 @@
    بيانات المخطط الزمني
 ================================ */
 const timelineData = [
-    { label: "قبل الولادة", type: "special", desc: "التقييم الأولي والتخطيط للعلاج", year: "السنة ٠" },
-    { label: "الولادة", type: "special", desc: "الفحص بعد الولادة والتقييم الشامل", year: "السنة ٠" },
+    { label: "قبل الولادة", type: "special", desc: "التقييم الأولي والتخطيط للعلاج" },
+    { label: "الولادة", type: "special", desc: "الفحص بعد الولادة والتقييم الشامل" },
 
-    { label: "٣", type: "month", desc: "الفحص الشامل وبدء المتابعة الدورية", year: "السنة ٠" },
-    { label: "٦", type: "month", desc: "متابعة النمو وفحص السمع الأولي", year: "السنة ٠" },
-    { label: "٩", type: "month", desc: "بدء جلسات التخاطب المبكرة", year: "السنة ٠" },
+    { label: "٣", type: "month", desc: "الفحص الشامل وبدء المتابعة الدورية" },
+    { label: "٦", type: "month", desc: "متابعة النمو وفحص السمع الأولي" },
+    { label: "٩", type: "month", desc: "بدء جلسات التخاطب المبكرة" },
     { label: "١٢", type: "month", desc: "فحص السمع الشامل والتقييم النمائي", year: "السنة ١" },
     { label: "١٨", type: "month", desc: "نهاية المرحلة الشهرية وبدء المتابعة السنوية", year: "السنة ١.٥" },
 
@@ -23,9 +23,10 @@ const timelineData = [
 const timelineContainer = document.getElementById("monthlyTimeline");
 
 timelineData.forEach(item => {
-    let titleText = item.type === "month" ? `شهر ${item.label}` :
-                    item.type === "year" ? `${item.label} سنوات` :
-                    item.label;
+    let titleText =
+        item.type === "month" ? `شهر ${item.label}` :
+        item.type === "year" ? `${item.label} سنوات` :
+        item.label;
 
     const timelineItem = document.createElement("div");
     timelineItem.className = "timeline-item";
@@ -35,11 +36,12 @@ timelineData.forEach(item => {
         <div class="timeline-content">
             <div class="timeline-time">
                 <div class="timeline-month">${titleText}</div>
-                <div class="timeline-year">${item.year}</div>
+                ${item.year ? `<div class="timeline-year">${item.year}</div>` : ""}
             </div>
             <div class="timeline-desc">${item.desc}</div>
         </div>
     `;
+
     timelineContainer.appendChild(timelineItem);
 });
 
@@ -48,6 +50,7 @@ timelineData.forEach(item => {
 ================================ */
 const modeToggle = document.getElementById("modeToggle");
 const body = document.body;
+
 if (modeToggle) {
     modeToggle.addEventListener("change", () => {
         body.classList.toggle("dark-mode", modeToggle.checked);
@@ -55,7 +58,7 @@ if (modeToggle) {
 }
 
 /* ===============================
-   تأثير الظهور عند التمرير للمخطط الزمني
+   تأثير الظهور عند التمرير
 ================================ */
 const timelineObserver = new IntersectionObserver(
     entries => {
