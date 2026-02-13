@@ -9,26 +9,6 @@
   color: #00aaff;
   font-weight: bold;
 }
-#darkToggle,
-.lang-btn {
-  position: fixed;
-  top: 15px;
-  z-index: 9999;
-  padding: 8px 14px;
-  border-radius: 30px;
-  font-size: 14px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* زر الوضع الليلي */
-#darkToggle {
-  left: 15px;
-}
-
-/* زر اللغة */
-.lang-btn {
-  right: 15px;
-}
 
 .lang-btn:hover{
   transform: scale(1.05);
@@ -2153,4 +2133,24 @@ body.dark .form-wrapper {
 .dark .hero img,
 .dark .success-stories img {
   filter: brightness(0.9) contrast(1.05);
+}
+#darkToggle,
+#langToggle {
+  position: fixed;
+  top: 10px; /* تحت النافبار */
+  z-index: 9999;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* الشمال */
+#darkToggle {
+  left: 15px;
+}
+
+/* اليمين */
+#langToggle {
+  right: 15px;
 }
