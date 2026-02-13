@@ -9,31 +9,25 @@
   color: #00aaff;
   font-weight: bold;
 }
-
-#darkToggle {
+#darkToggle,
+.lang-btn {
   position: fixed;
   top: 15px;
-  left: 15px;   /* 👈 فوق شمال */
   z-index: 9999;
-  border-radius: 30px;
-  font-size: 14px;
   padding: 8px 14px;
-}
-.lang-btn{
-  position: fixed;
-  top: 15px;
-  right: 15px;   /* 👈 فوق يمين */
-  z-index: 9999;
-  background: #012B73;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
   border-radius: 30px;
-  cursor: pointer;
-  font-family: 'Tajawal', sans-serif;
   font-size: 14px;
-  box-shadow: 0 6px 15px rgba(0,0,0,.25);
-  transition: .3s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* زر الوضع الليلي */
+#darkToggle {
+  left: 15px;
+}
+
+/* زر اللغة */
+.lang-btn {
+  right: 15px;
 }
 
 .lang-btn:hover{
@@ -385,7 +379,7 @@ ul{
 .wa{background:#25d366}
 
 .faq{
-  max-width:900px;
+  max-width:95%;
   margin:60px auto;
   padding:0 20px;
 }
@@ -877,6 +871,7 @@ body.dark .wa-box::-webkit-scrollbar-thumb:hover {
   justify-content: center;
   text-align: center;
   align-items: center;
+  width: 95%;
   max-width: 800px; /* أقصى عرض للبوكس */
   margin: 20px auto; /* يوسّطه في الصفحة */
   border-radius: 15px; /* حواف مستديرة */
@@ -1474,6 +1469,7 @@ body.dark .dot.active {
 }
 
 .hero-container {
+  width: 95%;
   max-width: 1200px;
   margin: auto;
   display: flex;
@@ -1643,6 +1639,7 @@ body.dark .dot.active {
 }
 
 .story-card {
+  width: 95%;
   max-width: 1100px;
   margin: auto;
   background: rgba(255,255,255,0.12);
