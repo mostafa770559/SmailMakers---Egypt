@@ -283,10 +283,12 @@ body{
 
 /* HEADER */
 header{
+  
     background:linear-gradient(135deg,var(--dark-blue),var(--mid-blue));
     color:#fff;
     padding:70px 20px;
     text-align:center;
+    width: 100%;
 }
 
 header h1{
