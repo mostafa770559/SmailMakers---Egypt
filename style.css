@@ -249,6 +249,7 @@ body.dark header{
 }
 
 body{
+  padding: 0;
     margin:0;
     background:var(--bg);
     color:#222;
@@ -1648,12 +1649,11 @@ body.dark .dot.active {
 }
 
 .story-images {
-  display: flex;
+  display: block;
   gap: 20px;
 }
 
 .img-box {
-  position: relative;
   border-radius: 16px;
   overflow: hidden;
 }
